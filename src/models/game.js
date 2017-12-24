@@ -49,7 +49,7 @@ const restart = ({
 
   const snake1 = snakeHandlers.initial({
     length: 5,
-    tailXY: { x: 10, y: 10 },
+    tailXY: { x: 3, y: 10 },
     headDirection: directions.east
   })
   
@@ -107,24 +107,24 @@ export const tick = (props) => ({ gameState, columns, rows, snake1, foodXY }) =>
     return
   }
 
-  const { ateFood, hitSelf, hitWall, ...snake1Changes } = snakeHandlers.move(props, { foodXY, columns, rows, mirror: false })(snake1)
-
-  if (hitSelf) {
-    return {
-      gameState: gameStates.gameOver,
-    }
-  }
-
-  if (hitWall) {
-    return {
-      gameState: gameStates.gameOver,
-    }
-  }
-
+  const snake1Changes = snakeHandlers.move(props, { foodXY, columns, rows, mirror: false })(snake1)
   const newSnake1 = { ...snake1, ...snake1Changes }
 
-  if (ateFood) {
-    foodXY = generateValidFoodXY({ columns, rows }, xyValidatorForSnake(snake1))
+  if (newSnake1.hitSelf) {
+    return {
+      gameState: gameStates.gameOver,
+    }
+  }
+
+  if (newSnake1.hitWall) {
+    return {
+      gameState: gameStates.gameOver,
+    }
+  }
+
+
+  if (newSnake1.movesSinceFood === 0) {
+    foodXY = generateValidFoodXY({ columns, rows }, xyValidatorForSnake(newSnake1))
   }
 
   return {
