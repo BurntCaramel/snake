@@ -1,4 +1,4 @@
-import { xyEqual, xyInDirection } from './base'
+import { xyEqual, xyInDirection, xyInArray } from './base'
 
 export const initial = ({
   length,
@@ -9,7 +9,7 @@ export const initial = ({
   headDirection
 })
 
-export const move = ({}, { foodXY, columns, rows, mirror = true }) => ({ headDirection, tailToHead }) => {
+export const move = ({}, { foodXY, columns, rows, mirror }) => ({ headDirection, tailToHead }) => {
   const oldHead = tailToHead[tailToHead.length - 1]
   let rest = tailToHead
 
@@ -22,15 +22,27 @@ export const move = ({}, { foodXY, columns, rows, mirror = true }) => ({ headDir
   
   let newHead = xyInDirection(oldHead, headDirection)
 
-  if (mirror) {
-    newHead.x = (newHead.x + columns) % columns
-    newHead.y = (newHead.y + rows) % rows
+  const adjustedHead = {
+    x: (newHead.x + columns) % columns,
+    y: (newHead.y + rows) % rows
   }
 
+  if (mirror) {
+    newHead = adjustedHead
+  }
+  // If head has been adjusted to not go beyond walls
+  else if (!xyEqual(newHead, adjustedHead)) {
+    return {
+      hitWall: true,
+    }
+  }
+
+  const hitSelf = xyInArray(rest, newHead)
+
   return {
-    headDirection,
     tailToHead: [ ...rest, newHead ],
     ateFood,
+    hitSelf,
   }
 }
 

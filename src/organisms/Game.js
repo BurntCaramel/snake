@@ -21,7 +21,7 @@ function render({
     <header className='game-header mb-3'>
       <HeaderCounter count={ pointsCount } />
       <button
-        className='button -raised -start'
+        className='button -start'
         onMouseDown={ handlers.beginRestart}
         onClick={ handlers.completeRestart }
       >
@@ -40,7 +40,7 @@ function render({
             </span>
           ) : (
             <span role='img' aria-label='Start game'>
-              😃
+              🐍
             </span>
           )
         }

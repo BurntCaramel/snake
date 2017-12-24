@@ -6,6 +6,14 @@ export const gameStates = {
   gameOver: 30 // Lost the game
 }
 
+export const gameStateDataChoices = {
+  [gameStates.gameOver]: {
+    hitSelf: 1,
+    hitWall: 2,
+    atePoison: 3,
+  }
+}
+
 export const directions = {
   north: 1,
   east: 2,
@@ -73,6 +81,8 @@ export function xyInDirection({ x, y }, direction, distance = 1) {
       throw new Error(`Unknown direction: ${direction}`)
   }
 }
+
+export const xyInArray = (arrayOfXYs, checkXY) => arrayOfXYs.some((xy) => xyEqual(checkXY, xy))
 
 export function snakeStateForXY(tailToHead, current) {
   const foundIndex = tailToHead.findIndex((xy) => xyEqual(xy, current))

@@ -4,6 +4,7 @@ import { tileSnakeStates, tileFoodStates, tileLevelStates, tileUserStates } from
 export default function Tile({
   snakeState = tileSnakeStates.body,
   foodState = tileFoodStates.none,
+  gameOver
 }) {
   const className = [
     'tile',
@@ -17,7 +18,11 @@ export default function Tile({
     >
       {
         (snakeState === tileSnakeStates.head) ? (
-          '👅'
+          gameOver ? (
+            '💀'
+          ) : (
+            '👅'
+          )
         ) : (snakeState === tileSnakeStates.body) ? (
           '💛'
         ) : (snakeState === tileSnakeStates.tail) ? (

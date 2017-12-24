@@ -1,6 +1,6 @@
 import times from 'lodash/times'
 import random from 'lodash/random'
-import { gameStates, tileLevelStates, tileUserStates, difficulties, directions, getOppositeDirection, keyCodesToDirections, xyEqual } from './base'
+import { gameStates, tileLevelStates, tileUserStates, difficulties, directions, getOppositeDirection, keyCodesToDirections, xyEqual, xyInArray } from './base'
 import * as snakeHandlers from './snake'
 
 
@@ -17,7 +17,7 @@ const generateValidFoodXY = ({ columns, rows }, isValid) => {
   return foodXY
 }
 
-const xyValidatorForSnake = ({ tailToHead }) => (foodXY) => !tailToHead.some((snakeXY) => xyEqual(foodXY, snakeXY))
+const xyValidatorForSnake = ({ tailToHead }) => (foodXY) => !xyInArray(tailToHead, foodXY)
 
 const restart = ({
   difficultyID,
@@ -57,6 +57,7 @@ const restart = ({
 
   return {
     gameState: gameStates.fresh,
+    gameStateData: {},
     columns,
     rows,
     snake1,
@@ -101,8 +102,24 @@ export function *load(next, prev) {
 export const beginRestart = () => ({ gameState: gameStates.restarting })
 export const completeRestart = restart
 
-export const tick = (props) => ({ columns, rows, snake1, foodXY }) => {
-  const { ateFood, ...snake1Changes } = snakeHandlers.move(props, { foodXY, columns, rows })(snake1)
+export const tick = (props) => ({ gameState, columns, rows, snake1, foodXY }) => {
+  if (gameState !== gameStates.fresh && gameState !== gameStates.playing) {
+    return
+  }
+
+  const { ateFood, hitSelf, hitWall, ...snake1Changes } = snakeHandlers.move(props, { foodXY, columns, rows, mirror: false })(snake1)
+
+  if (hitSelf) {
+    return {
+      gameState: gameStates.gameOver,
+    }
+  }
+
+  if (hitWall) {
+    return {
+      gameState: gameStates.gameOver,
+    }
+  }
 
   const newSnake1 = { ...snake1, ...snake1Changes }
 
@@ -111,6 +128,7 @@ export const tick = (props) => ({ columns, rows, snake1, foodXY }) => {
   }
 
   return {
+    gameState: gameStates.playing,
     snake1: newSnake1,
     foodXY
   }

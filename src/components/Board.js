@@ -29,6 +29,7 @@ export default function Board({
               key={`y${y} x${x}`}
               snakeState={ snakeStateForXY(snake1.tailToHead, { x, y } ) }
               foodState={ xyEqual(foodXY, { x, y }) ? tileFoodStates.apple : tileFoodStates.none }
+              gameOver={ gameState === gameStates.gameOver }
             />
           ))
         }
