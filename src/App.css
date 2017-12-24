@@ -1,0 +1,117 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(242, 242, 242);
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.game-header_counter {
+  padding: 0 3px;
+  font-size: 24px;
+  color: red;
+  background: black;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+.board {
+  -webkit-user-select: none;
+  user-select: none;
+}
+.board-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.button {
+  padding: 2px;
+  border: 1px solid #ddd;
+  background-color: rgb(249, 249, 249);
+}
+
+.button.-start {
+  font-size: 32px;
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 1.46;
+  text-align: center;
+}
+
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  height: 1.5em;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 2px;
+  /* border: 1px solid #fff; */
+  background-color: rgb(249, 249, 249);
+  border-radius: 0;
+}
+.button.-raised:not(:active),
+.tile.-covered:not(:active),
+.tile.-flag
+{
+  background-color: #eee;
+  padding: 0;
+  border-top: 3px solid white;
+  border-left: 3px solid white;
+  border-right: 3px solid #ccc;
+  border-bottom: 3px solid #ccc;
+  border-radius: 0;
+}
+.tile.-proximity-1 {
+  color: blue;
+}
+.tile.-proximity-2 {
+  color: green;
+}
+.tile.-proximity-3 {
+  color: red;
+}
+.tile.-proximity-4 {
+  color: darkblue;
+}
+.tile.-proximity-5 {
+  color: darkred;
+}
+.tile.-proximity-6 {
+  color: darkcyan;
+}
+.tile.-bomb {
+  line-height: 1.3;
+}
+.tile.-hitBomb {
+  background-color: red;
+  border-color: red;
+}
+.tile.-flag {
+  line-height: 1.2;
+}
+
+.game-settings {
+  margin-top: 1rem;
+}
+
+.links-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+  font-size: 13px;
+}
+.links-nav a {
+  margin-bottom: 0.5rem;
+  color: rgb(70, 70, 70);
+  text-decoration: none;
+  border-bottom: 1px dotted currentColor;
+}
