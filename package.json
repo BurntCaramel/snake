@@ -12,7 +12,10 @@
   "scripts": {
     "start": "react-scripts start",
     "dev": "react-scripts start",
-    "build": "react-scripts build && cp src/_redirects build/_redirects",
+    "build:1-base": "react-scripts build",
+    "build:2-redirects": "cp src/_redirects build/_redirects",
+    "build:3-html": "sed -i -e 's/React App/Serpent/g' build/index.html",
+    "build": "npm run build:1-base && npm run build:2-redirects && npm run build:3-html",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
